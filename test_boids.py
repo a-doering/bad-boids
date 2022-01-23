@@ -7,7 +7,7 @@ import yaml
 
 def test_bad_boids_regression():
     boids=bd.Boids(0.01/50,10,100,0.125/50)
-    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture.yml')))
+    regression_data=yaml.safe_load(open(os.path.join(os.path.dirname(__file__),'fixture.yml')))
     boids.initialise_from_data(regression_data["before"])
     boids.update()
     for index,boid in enumerate(boids.boids):
@@ -16,7 +16,6 @@ def test_bad_boids_regression():
         assert_almost_equal(boid.velocity[0],regression_data["after"][2][index],delta=0.01)
         assert_almost_equal(boid.velocity[1],regression_data["after"][3][index],delta=0.01)
 
-	
 def test_bad_boids_initialisation():
     boids=bd.Boids(1.0,10.0,100.0,0.5)
     boids.initialise_random(15)
