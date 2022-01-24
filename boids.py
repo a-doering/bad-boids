@@ -8,6 +8,8 @@ from numpy import array
 
 
 class Boid:
+    """A single Boid, which may belong to a flock of Boids (its owner)."""
+
     def __init__(self, x, y, xv, yv, owner):
         self.position = array([x, y])
         self.velocity = array([xv, yv])
@@ -35,6 +37,8 @@ class Boid:
 
 
 class Boids:
+    """A flock of Boids governed by a set of interaction parameters."""
+
     def __init__(
         self,
         flock_attraction,
@@ -47,13 +51,20 @@ class Boids:
         self.formation_flying_radius = formation_flying_radius
         self.speed_matching_strength = speed_matching_strength
 
-    def initialise_random(self, count):
+    def initialise_random(
+        self,
+        count,
+        x_range=(-450, 50.0),
+        y_range=(300.0, 600.0),
+        xv_range=(0, 10.0),
+        yv_range=(-20.0, 20.0),
+    ):
         self.boids = [
             Boid(
-                random.uniform(-450, 50.0),
-                random.uniform(300.0, 600.0),
-                random.uniform(0, 10.0),
-                random.uniform(-20.0, 20.0),
+                random.uniform(*x_range),
+                random.uniform(*y_range),
+                random.uniform(*xv_range),
+                random.uniform(*yv_range),
                 self,
             )
             for i in range(count)
