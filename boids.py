@@ -6,13 +6,15 @@ for use as an exercise on refactoring.
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
+import yaml
 
 # Deliberately terrible code for teaching purposes
 
-boids_x=[random.uniform(-450,50.0) for x in range(50)]
-boids_y=[random.uniform(300.0,600.0) for x in range(50)]
-boid_x_velocities=[random.uniform(0,10.0) for x in range(50)]
-boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(50)]
+config = yaml.safe_load(open("config.yaml"))
+boids_x=[random.uniform(*config["boids"]["x"]) for x in range(config["boids"]["num"])]
+boids_y=[random.uniform(*config["boids"]["y"]) for x in range(config["boids"]["num"])]
+boid_x_velocities=[random.uniform(*config["boids"]["xv"]) for x in range(config["boids"]["num"])]
+boid_y_velocities=[random.uniform(*config["boids"]["yv"]) for x in range(config["boids"]["num"])]
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 def update_boids(boids):
@@ -43,7 +45,7 @@ def update_boids(boids):
 
 
 figure=plt.figure()
-axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
+axes=plt.axes(xlim=(config["plot"]["xlim"][0], config["plot"]["xlim"][1]), ylim=(config["plot"]["ylim"][0], config["plot"]["ylim"][1]))
 scatter=axes.scatter(boids[0],boids[1])
 
 def animate(frame):
@@ -52,7 +54,7 @@ def animate(frame):
 
 
 anim = animation.FuncAnimation(figure, animate,
-                               frames=50, interval=50)
+                               frames=config["plot"]["frames"], interval=config["plot"]["interval"])
 
 if __name__ == "__main__":
     plt.show()
