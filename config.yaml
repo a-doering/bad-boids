@@ -5,8 +5,10 @@ boids:
   y: [300, 600]
   xv: [0, 10]
   yv: [-20, 20]
-  too_close_sq: 100
-  matching_speed_sq: 10000
+  flock_attraction: 0.01
+  avoidance_radius: 10
+  formation_flying_radius: 100
+  speed_matching: 0.125
 plot:
   xlim: [-500, 1500]
   ylim: [-500, 1500]
