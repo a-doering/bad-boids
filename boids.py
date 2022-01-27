@@ -21,24 +21,24 @@ def update_boids(boids):
 		for j in range(len(xs)):
 			x_separation = (xs[j]-xs[i])
 			y_separation = (ys[j]-ys[i])
-			xvs[i]=xvs[i]+x_separation*config["boids"]["flock_attraction"]/len(xs)
-			yvs[i]=yvs[i]+y_separation*config["boids"]["flock_attraction"]/len(xs)
+			xvs[i]+=x_separation*config["boids"]["flock_attraction"]/len(xs)
+			yvs[i]+=y_separation*config["boids"]["flock_attraction"]/len(xs)
 			# Fly away from nearby boids
 			if x_separation**2 + y_separation**2 < config["boids"]["avoidance_radius"]**2:
-				xvs[i]=xvs[i]-x_separation
-				yvs[i]=yvs[i]-y_separation
+				xvs[i]-=x_separation
+				yvs[i]-=y_separation
 	# Try to match speed with nearby boids
 	for i in range(len(xs)):
 		for j in range(len(xs)):
 			x_separation = (xs[j]-xs[i])
 			y_separation = (ys[j]-ys[i])
 			if x_separation**2 + y_separation**2 < config["boids"]["formation_flying_radius"]**2:
-				xvs[i]=xvs[i]+(xvs[j]-xvs[i])*config["boids"]["speed_matching"]/len(xs)
-				yvs[i]=yvs[i]+(yvs[j]-yvs[i])*config["boids"]["speed_matching"]/len(xs)
+				xvs[i]+=(xvs[j]-xvs[i])*config["boids"]["speed_matching"]/len(xs)
+				yvs[i]+=(yvs[j]-yvs[i])*config["boids"]["speed_matching"]/len(xs)
 	# Move according to velocities
 	for i in range(len(xs)):
-		xs[i]=xs[i]+xvs[i]
-		ys[i]=ys[i]+yvs[i]
+		xs[i]+=xvs[i]
+		ys[i]+=yvs[i]
 
 boids = init_boids()
 figure=plt.figure()
