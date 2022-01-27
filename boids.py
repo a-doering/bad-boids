@@ -1,22 +1,18 @@
-"""
-A deliberately bad implementation of [Boids](http://dl.acm.org/citation.cfm?doid=37401.37406)
-for use as an exercise on refactoring.
-"""
-
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
 import yaml
 random.seed(42)
-
-# Deliberately terrible code for teaching purposes
-
 config = yaml.safe_load(open("config.yaml"))
-boids_x=[random.uniform(*config["boids"]["x"]) for x in range(config["boids"]["num"])]
-boids_y=[random.uniform(*config["boids"]["y"]) for x in range(config["boids"]["num"])]
-boid_x_velocities=[random.uniform(*config["boids"]["xv"]) for x in range(config["boids"]["num"])]
-boid_y_velocities=[random.uniform(*config["boids"]["yv"]) for x in range(config["boids"]["num"])]
-boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
+
+
+def init_boids():
+	boids_x=[random.uniform(*config["boids"]["x"]) for x in range(config["boids"]["num"])]
+	boids_y=[random.uniform(*config["boids"]["y"]) for x in range(config["boids"]["num"])]
+	boid_x_velocities=[random.uniform(*config["boids"]["xv"]) for x in range(config["boids"]["num"])]
+	boid_y_velocities=[random.uniform(*config["boids"]["yv"]) for x in range(config["boids"]["num"])]
+	boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
+	return boids
 
 def update_boids(boids):
 	xs,ys,xvs,yvs=boids
@@ -24,8 +20,6 @@ def update_boids(boids):
 	for i in range(len(xs)):
 		for j in range(len(xs)):
 			xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-	for i in range(len(xs)):
-		for j in range(len(xs)):
 			yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
 	# Fly away from nearby boids
 	for i in range(len(xs)):
@@ -44,7 +38,7 @@ def update_boids(boids):
 		xs[i]=xs[i]+xvs[i]
 		ys[i]=ys[i]+yvs[i]
 
-
+boids = init_boids()
 figure=plt.figure()
 axes=plt.axes(xlim=(config["plot"]["xlim"][0], config["plot"]["xlim"][1]), ylim=(config["plot"]["ylim"][0], config["plot"]["ylim"][1]))
 scatter=axes.scatter(boids[0],boids[1])
