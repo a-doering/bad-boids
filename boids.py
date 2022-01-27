@@ -14,6 +14,10 @@ def init_boids():
 
 def update_boids(boids):
 	xs,ys,xvs,yvs=boids
+	adjust_velocity(xs,ys,xvs,yvs)
+	move(xs,ys,xvs,yvs)
+
+def adjust_velocity(xs,ys,xvs,yvs):
 	# Fly towards the middle
 	for i in range(len(xs)):
 		for j in range(len(xs)):
@@ -33,6 +37,8 @@ def update_boids(boids):
 			if x_separation**2 + y_separation**2 < config["boids"]["formation_flying_radius"]**2:
 				xvs[i]+=(xvs[j]-xvs[i])*config["boids"]["speed_matching"]/len(xs)
 				yvs[i]+=(yvs[j]-yvs[i])*config["boids"]["speed_matching"]/len(xs)
+
+def move(xs,ys,xvs,yvs):
 	# Move according to velocities
 	for i in range(len(xs)):
 		xs[i]+=xvs[i]
