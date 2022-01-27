@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
 import yaml
+random.seed(42)
 
 # Deliberately terrible code for teaching purposes
 
